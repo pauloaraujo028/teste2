@@ -1,3 +1,9 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,92 +14,74 @@ datasource db {
 }
 
 model Users {
-  userId   String   @id @default(uuid()) 
-  name     String
-  email    String
-  createdAt DateTime @default(now())  
-  updatedAt DateTime @updatedAt      
+  userId String @id
+  name   String
+  email  String
 }
 
 model Products {
-  productId     Int       @id @default(autoincrement()) 
+  productId     String      @id
   name          String
   price         Float
   rating        Float?
   stockQuantity Int
-  createdAt     DateTime  @default(now()) 
-  updatedAt     DateTime  @updatedAt       
   Sales         Sales[]
   Purchases     Purchases[]
 }
 
 model Sales {
-  saleId      Int       @id @default(autoincrement()) 
-  productId   Int
+  saleId      String   @id
+  productId   String
   timestamp   DateTime
   quantity    Int
   unitPrice   Float
   totalAmount Float
   product     Products @relation(fields: [productId], references: [productId])
-  createdAt   DateTime @default(now())  
-  updatedAt   DateTime @updatedAt       
 }
 
 model Purchases {
-  purchaseId  Int       @id @default(autoincrement()) 
-  productId   Int
-  timestamp   DateTime
-  quantity    Int
-  unitCost    Float
-  totalCost   Float
-  product     Products @relation(fields: [productId], references: [productId])
-  createdAt   DateTime @default(now())  
-  updatedAt   DateTime @updatedAt       
+  purchaseId String   @id
+  productId  String
+  timestamp  DateTime
+  quantity   Int
+  unitCost   Float
+  totalCost  Float
+  product    Products @relation(fields: [productId], references: [productId])
 }
 
 model Expenses {
-  expenseId   Int      @id @default(autoincrement()) 
-  category    String
-  amount      Float
-  timestamp   DateTime
-  createdAt   DateTime @default(now())  
-  updatedAt   DateTime @updatedAt       
+  expenseId String   @id
+  category  String
+  amount    Float
+  timestamp DateTime
 }
 
 model SalesSummary {
-  salesSummaryId   Int     @id @default(autoincrement()) 
+  salesSummaryId   String   @id
   totalValue       Float
   changePercentage Float?
   date             DateTime
-  createdAt        DateTime @default(now())  
-  updatedAt        DateTime @updatedAt      
 }
 
 model PurchaseSummary {
-  purchaseSummaryId Int     @id @default(autoincrement()) 
+  purchaseSummaryId String   @id
   totalPurchased    Float
   changePercentage  Float?
   date              DateTime
-  createdAt         DateTime @default(now()) 
-  updatedAt         DateTime @updatedAt    
 }
 
 model ExpenseSummary {
-  expenseSummaryId  Int                 @id @default(autoincrement()) 
+  expenseSummaryId  String              @id
   totalExpenses     Float
   date              DateTime
-  createdAt         DateTime @default(now())  
-  updatedAt         DateTime @updatedAt       
   ExpenseByCategory ExpenseByCategory[]
 }
 
 model ExpenseByCategory {
-  expenseByCategoryId Int              @id @default(autoincrement()) 
-  expenseSummaryId    Int
+  expenseByCategoryId String         @id
+  expenseSummaryId    String
   category            String
   amount              BigInt
   date                DateTime
-  createdAt           DateTime @default(now())  
-  updatedAt           DateTime @updatedAt       
   expenseSummary      ExpenseSummary @relation(fields: [expenseSummaryId], references: [expenseSummaryId])
 }
