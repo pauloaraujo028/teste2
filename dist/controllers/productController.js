@@ -1,22 +1,12 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.editProduct = exports.createProducts = exports.getProducts = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
-const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+const getProducts = async (req, res) => {
     try {
-        const search = (_a = req.query.search) === null || _a === void 0 ? void 0 : _a.toString();
-        const products = yield prisma.products.findMany({
+        const search = req.query.search?.toString();
+        const products = await prisma.products.findMany({
             where: {
                 name: {
                     contains: search,
@@ -31,12 +21,12 @@ const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     catch (error) {
         res.status(500).json({ message: "Error retrieving products" });
     }
-});
+};
 exports.getProducts = getProducts;
-const createProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const createProducts = async (req, res) => {
     try {
         const { productId, name, price, rating, stockQuantity } = req.body;
-        const product = yield prisma.products.create({
+        const product = await prisma.products.create({
             data: {
                 productId,
                 name,
@@ -50,7 +40,7 @@ const createProducts = (req, res) => __awaiter(void 0, void 0, void 0, function*
     catch (error) {
         res.status(500).json({ message: "Error creating product" });
     }
-});
+};
 exports.createProducts = createProducts;
 // export const deleteProducts = async (
 //   req: Request,
@@ -71,10 +61,10 @@ exports.createProducts = createProducts;
 //     res.status(500).json({ message: "Error deleting product" });
 //   }
 // };
-const editProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const editProduct = async (req, res) => {
     try {
         const { productId, name, price, stockQuantity, rating } = req.body;
-        const updatedProduct = yield prisma.products.update({
+        const updatedProduct = await prisma.products.update({
             where: {
                 productId,
             },
@@ -92,5 +82,5 @@ const editProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     catch (error) {
         res.status(500).json({ message: "Error updating product", error });
     }
-});
+};
 exports.editProduct = editProduct;
