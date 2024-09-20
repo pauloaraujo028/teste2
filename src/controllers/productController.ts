@@ -48,29 +48,6 @@ export const createProducts = async (
   }
 };
 
-// export const deleteProducts = async (
-//   req: Request,
-//   res: Response
-// ): Promise<void> => {
-//   try {
-//     const { productId } = req.params;
-
-//     if (!productId) {
-//       res.status(400).json({ message: "Product ID is required" });
-//     }
-
-//     const product = await prisma.products.delete({
-//       where: {
-//         productId,
-//       },
-//     });
-
-//     res.status(200).json({ message: "Product deleted successfully", product });
-//   } catch (error) {
-//     res.status(500).json({ message: "Error deleting product" });
-//   }
-// };
-
 export const editProduct = async (
   req: Request,
   res: Response
@@ -96,3 +73,26 @@ export const editProduct = async (
     res.status(500).json({ message: "Error updating product", error });
   }
 };
+
+// export const deleteProducts = async (
+//   req: Request,
+//   res: Response
+// ): Promise<void> => {
+//   try {
+//     const { productId } = req.params;
+
+//     if (!productId) {
+//       res.status(400).json({ message: "Product ID is required" });
+//     }
+
+//     const product = await prisma.products.delete({
+//       where: {
+//         productId,
+//       },
+//     });
+
+//     res.status(200).json({ message: "Product deleted successfully", product });
+//   } catch (error) {
+//     res.status(500).json({ message: "Error deleting product" });
+//   }
+// };
